@@ -2,6 +2,8 @@
 {
     public sealed class SylkParser
     {
+        private readonly bool _keepText;
+
         private SylkTable _table;
         private int? _lastX;
         private int? _lastY;
@@ -12,9 +14,29 @@
             _lastY = null;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SylkParser"/> class.
+        /// </summary>
+        /// <param name="keepText">
+        /// If <see langword="true"/>, every cell is kept as the text the file spells (quoted text without its quotes, and a doubled quote as one),
+        /// instead of being read as a <see cref="string"/>, <see cref="int"/>, <see cref="float"/> or <see cref="bool"/> or rejected.
+        /// A cell outside the size the <c>B</c> record gives makes the table larger, a record other than <c>ID</c>, <c>B</c>, <c>C</c> and <c>E</c> is
+        /// skipped, and the file may end without an <c>E</c> record.
+        /// </param>
+        public SylkParser(bool keepText)
+            : this()
+        {
+            _keepText = keepText;
+        }
+
         public SylkTable Parse(Stream input, bool leaveOpen = false)
         {
             using var reader = new StreamReader(input, Encoding.UTF8, true, 1024, leaveOpen);
+
+            if (_keepText)
+            {
+                return ParseText(reader);
+            }
 
             var isOnFirstLine = true;
             while (true)
@@ -144,6 +166,132 @@
 
             _lastX = xi;
             _lastY = yi;
+        }
+
+        private static SylkTable ParseText(StreamReader reader)
+        {
+            var cells = new List<(int X, int Y, string Text)>();
+            var width = 0;
+            var height = 0;
+            var lastX = 0;
+            var lastY = 0;
+
+            var isOnFirstLine = true;
+            string? line;
+            while ((line = reader.ReadLine()) is not null)
+            {
+                var fields = SplitRecord(line);
+                var recordType = fields[0];
+
+                if (isOnFirstLine)
+                {
+                    isOnFirstLine = false;
+                    if (recordType != "ID")
+                    {
+                        throw new InvalidDataException("SYLK file must start with 'ID'.");
+                    }
+
+                    continue;
+                }
+
+                if (recordType == "E")
+                {
+                    break;
+                }
+
+                if (recordType == "B")
+                {
+                    foreach (var field in fields.Skip(1))
+                    {
+                        if (field.Length > 1 && field[0] == 'X')
+                        {
+                            width = Math.Max(width, int.Parse(field.Substring(1), NumberStyles.Integer, CultureInfo.InvariantCulture));
+                        }
+                        else if (field.Length > 1 && field[0] == 'Y')
+                        {
+                            height = Math.Max(height, int.Parse(field.Substring(1), NumberStyles.Integer, CultureInfo.InvariantCulture));
+                        }
+                    }
+                }
+                else if (recordType == "C")
+                {
+                    string? text = null;
+                    foreach (var field in fields.Skip(1))
+                    {
+                        if (field.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        switch (field[0])
+                        {
+                            case 'X':
+                                lastX = int.Parse(field.Substring(1), NumberStyles.Integer, CultureInfo.InvariantCulture);
+                                break;
+
+                            case 'Y':
+                                lastY = int.Parse(field.Substring(1), NumberStyles.Integer, CultureInfo.InvariantCulture);
+                                break;
+
+                            case 'K':
+                                text = field.Length >= 3 && field[1] == '"' && field[^1] == '"'
+                                    ? field.Substring(2, field.Length - 3).Replace("\"\"", "\"")
+                                    : field.Substring(1);
+                                break;
+                        }
+                    }
+
+                    if (text is not null)
+                    {
+                        if (lastX < 1)
+                        {
+                            throw new InvalidDataException("Column for cell is not defined.");
+                        }
+
+                        if (lastY < 1)
+                        {
+                            throw new InvalidDataException("Row for cell is not defined.");
+                        }
+
+                        cells.Add((lastX, lastY, text));
+                        width = Math.Max(width, lastX);
+                        height = Math.Max(height, lastY);
+                    }
+                }
+            }
+
+            var table = new SylkTable(width, height);
+            foreach (var (x, y, text) in cells)
+            {
+                table[x - 1, y - 1] = text;
+            }
+
+            return table;
+        }
+
+        /// <summary>
+        /// Splits a record on the semicolons outside quotes.
+        /// </summary>
+        private static List<string> SplitRecord(string record)
+        {
+            var fields = new List<string>();
+            var start = 0;
+            var quoted = false;
+            for (var i = 0; i < record.Length; i++)
+            {
+                if (record[i] == '"')
+                {
+                    quoted = !quoted;
+                }
+                else if (record[i] == ';' && !quoted)
+                {
+                    fields.Add(record.Substring(start, i - start));
+                    start = i + 1;
+                }
+            }
+
+            fields.Add(record.Substring(start));
+            return fields;
         }
     }
 }
