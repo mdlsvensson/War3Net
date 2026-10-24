@@ -7,6 +7,11 @@ Moonwell.War3Net.IO.Slk, Moonwell.War3Net.Build.Core and Moonwell.War3Net.Build.
 
 The files below were changed by mdlsvensson in 2026. Each change is in the history of the moonwell-package branch.
 
+.github/known-failures/War3Net.Build.Core.Tests.txt
+.github/scripts/failed-tests.ps1
+.github/scripts/test-fork.ps1
+.github/workflows/build.yml
+.github/workflows/publish.yml
 Directory.Packages.props
 docs/changelogs/War3Net.Build.Core.changelog.md
 docs/changelogs/War3Net.Build.changelog.md
@@ -23,3 +28,6 @@ tests/War3Net.Build.Core.Tests/Info/GameDataVersionTests.cs
 tests/War3Net.Build.Tests/MapScriptBuilderMissingFileTests.cs
 tests/War3Net.IO.Slk.Tests/GlobalUsings.cs
 tests/War3Net.IO.Slk.Tests/SylkParserTests.cs
+
+The fork also removes War3Net's own workflows .github/workflows/pack-nuget.yml and .github/workflows/publish-nuget.yml, which
+pack and publish War3Net's packages under War3Net's ids.

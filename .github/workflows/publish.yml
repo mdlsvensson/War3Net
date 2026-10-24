@@ -1,0 +1,76 @@
+# Publishes the fork's packages, Moonwell.War3Net.IO.Slk, Moonwell.War3Net.Build.Core and Moonwell.War3Net.Build, to nuget.org
+# by trusted publishing, as War3Net publishes its own: nuget.org trusts this workflow file (policy owner mdlsvensson,
+# repository War3Net, workflow file publish.yml) and gives it a key for one hour, so no API key is stored. Run by hand, from
+# moonwell-package only. The versions are the ones in Directory.Packages.props; a version already on nuget.org is skipped.
+# It does not tag or create a GitHub release (War3Net's own workflow does).
+name: Publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/moonwell-package'
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Submodule
+        run: git submodule update --init submodules/CSharp.lua
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        shell: pwsh
+        run: .github/scripts/test-fork.ps1
+
+      # The packs depend on each other: each one is restored from ./artifacts (nuget.config), so they go in this order. PUBLISH=true
+      # makes a project reference a package reference, as in War3Net's own release.
+      - name: Pack
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          foreach ($project in 'War3Net.IO.Slk', 'War3Net.Build.Core', 'War3Net.Build') {
+            dotnet restore "src/$project" -p:PUBLISH=true -p:Configuration=Release --force
+            dotnet build "src/$project" -p:PUBLISH=true -p:WarningLevel=0 -p:RunAnalyzers=false -p:SuppressTfmSupportBuildWarnings=true -c Release --no-restore
+            if ($LASTEXITCODE -ne 0) { throw "$project did not build" }
+            dotnet pack "src/$project" -p:PUBLISH=true -c Release --no-build --output artifacts
+            if ($LASTEXITCODE -ne 0) { throw "$project did not pack" }
+          }
+          $packages = @(Get-ChildItem artifacts -Filter Moonwell.*.nupkg)
+          if ($packages.Count -ne 3) { throw "Pack made $($packages.Count) packages, not 3" }
+          $packages | ForEach-Object { $_.Name }
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: packages
+          path: artifacts/Moonwell.*
+
+      - name: Log in to nuget.org
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      # Each package in dependency order; dotnet nuget push sends the .snupkg beside a .nupkg too.
+      - name: Push
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          foreach ($id in 'Moonwell.War3Net.IO.Slk', 'Moonwell.War3Net.Build.Core', 'Moonwell.War3Net.Build') {
+            foreach ($package in Get-ChildItem artifacts -Filter "$id.*.nupkg" | Where-Object { $_.Name -match "^$([regex]::Escape($id))\.\d" }) {
+              dotnet nuget push $package.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              if ($LASTEXITCODE -ne 0) { throw "Pushing $($package.Name) failed" }
+            }
+          }

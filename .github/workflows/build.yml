@@ -1,0 +1,31 @@
+# The tests of the three packages Moonwell's fork publishes. War3Net.Build.Core.Tests has cases that fail on Drake53's unchanged
+# master; .github/known-failures lists them, and any other failure fails the run.
+name: Test
+
+on:
+  push:
+    branches: [moonwell-package]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Build.Tests references the CSharp.lua submodule; the other submodules are not needed.
+      - name: Submodule
+        run: git submodule update --init submodules/CSharp.lua
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        shell: pwsh
+        run: .github/scripts/test-fork.ps1
