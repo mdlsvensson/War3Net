@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added .NET 10.0 target framework; the package now targets both .NET 6.0 and .NET 10.0.
+- Added `SylkParser(bool keepText)`. With `keepText` set, every cell is kept as the text the file spells (quoted text without its quotes, a doubled quote as one) instead of being read as a string, integer, float or boolean, so `0.666666666666667` and `#VALUE!` come back unchanged and no cell is rejected. A `;` inside quotes does not split a record, a cell outside the size of the `B` record makes the table larger, a record other than `ID`, `B`, `C` and `E` is skipped, and the file may end without an `E` record. The default parser is unchanged.
 
 ## [v6.0.2] - 2026-03-01
 
