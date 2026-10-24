@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>Generate map scripts and MPQ archives from C#/vJass source code.</Description>
+    <PackageId>Moonwell.War3Net.Build</PackageId>
+    <Description>Generate map scripts and MPQ archives from C#/vJass source code. Moonwell's fork of War3Net.Build.</Description>
     <PackageTags>jass;map;modding;mpq;vjass;warcraft3;wc3</PackageTags>
   </PropertyGroup>
 
@@ -15,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(PUBLISH)'=='true'">
-    <PackageReference Include="War3Net.Build.Core" />
+    <PackageReference Include="Moonwell.War3Net.Build.Core" />
     <PackageReference Include="War3Net.CodeAnalysis.Transpilers" />
   </ItemGroup>
 

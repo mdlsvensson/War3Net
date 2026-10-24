@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Owners>Drake53</Owners>
-    <Authors>Drake53 and Contributors</Authors>
+    <Owners>mdlsvensson</Owners>
+    <Authors>Drake53 and Contributors, mdlsvensson</Authors>
     <Copyright>Copyright (c) Drake53 and Contributors</Copyright>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -31,8 +31,9 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-    <PackageReleaseNotes>https://github.com/Drake53/War3Net/tree/master/docs/changelogs</PackageReleaseNotes>
-    <PackageProjectUrl>https://github.com/Drake53/War3Net</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/mdlsvensson/War3Net/tree/moonwell-package/docs/changelogs</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/mdlsvensson/War3Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mdlsvensson/War3Net</RepositoryUrl>
 
     <PackageIcon>war3net-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -41,6 +42,9 @@
   <ItemGroup Condition="'$(PUBLISH)'=='true'">
     <None Include="$(MSBuildThisFileDirectory)../assets/images/war3net-icon.png" Pack="true" PackagePath="\" Visible="false" />
     <None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="\" Visible="true" />
+    <!-- The licence, and the notice of the files this fork changed, go in each package. -->
+    <None Include="$(MSBuildThisFileDirectory)../LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../NOTICE" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(PUBLISH)'!='true'">

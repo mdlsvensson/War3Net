@@ -1,0 +1,15 @@
+War3Net, Moonwell's fork (https://github.com/mdlsvensson/War3Net, branch moonwell-package)
+
+Copyright (c) Drake53 and Contributors, licensed under the MIT License (LICENSE).
+This is a fork of https://github.com/Drake53/War3Net, from its master at v6.1.2 (5f6f7ba). It publishes three of
+War3Net's packages under other ids, for Moonwell (https://github.com/mdlsvensson/moonwell):
+Moonwell.War3Net.IO.Slk, Moonwell.War3Net.Build.Core and Moonwell.War3Net.Build. Their assemblies keep War3Net's names.
+
+The files below were changed by mdlsvensson in 2026. Each change is in the history of the moonwell-package branch.
+
+Directory.Packages.props
+nuget.config
+src/Directory.Build.props
+src/War3Net.IO.Slk/War3Net.IO.Slk.csproj
+src/War3Net.Build.Core/War3Net.Build.Core.csproj
+src/War3Net.Build/War3Net.Build.csproj

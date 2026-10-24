@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>Parsers and serializers for war3map files.</Description>
+    <PackageId>Moonwell.War3Net.Build.Core</PackageId>
+    <Description>Parsers and serializers for war3map files. Moonwell's fork of War3Net.Build.Core.</Description>
     <PackageTags>modding;parser;serializer;war3map;warcraft3;wc3</PackageTags>
   </PropertyGroup>
 
@@ -19,7 +20,7 @@
   <ItemGroup Condition="'$(PUBLISH)'=='true'">
     <PackageReference Include="War3Net.CodeAnalysis.Jass" />
     <PackageReference Include="War3Net.IO.Mpq" />
-    <PackageReference Include="War3Net.IO.Slk" />
+    <PackageReference Include="Moonwell.War3Net.IO.Slk" />
   </ItemGroup>
 
   <ItemGroup>

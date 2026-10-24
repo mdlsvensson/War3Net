@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>Read and write SLK data files.</Description>
+    <PackageId>Moonwell.War3Net.IO.Slk</PackageId>
+    <Description>Read and write SLK data files. Moonwell's fork of War3Net.IO.Slk.</Description>
     <PackageTags>modding;slk;sylk;warcraft3;wc3</PackageTags>
   </PropertyGroup>
 
