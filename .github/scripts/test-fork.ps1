@@ -33,3 +33,6 @@ foreach ($project in $projects) {
 if ($unexpected -gt 0) {
     throw "$unexpected failed tests are not in .github/known-failures"
 }
+
+# dotnet test exits with 1 for the known failures, and PowerShell would pass that on as the script's exit code.
+exit 0
