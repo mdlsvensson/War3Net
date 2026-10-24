@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-_No unreleased changes._
+### Changed
+
+- `MapScriptBuilder.Build` throws an `InvalidOperationException` when the map has no info (`war3map.w3i`) or no environment (`war3map.w3e`). It used to write `config` without `main` for a map with no environment, a script the game does not load (it crashes before the load screen), and nothing for a map with no info.
 
 ## [v6.1.2] - 2026-10-17
 
