@@ -106,7 +106,18 @@
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            var commentLine1 = "//===========================================================================";
+            // The script is incomplete without these (no main without the environment, no config without the info), and the game does not load it.
+            if (map.Info is null)
+            {
+                throw new InvalidOperationException($"The map has no info file ({MapInfo.FileName}), which the map script needs.");
+            }
+
+            if (map.Environment is null)
+            {
+                throw new InvalidOperationException($"The map has no environment file ({MapEnvironment.FileName}), which the map script needs.");
+            }
+
+            var commentLine1 ="//===========================================================================";
             var commentLine2 = "//***************************************************************************";
             var commentLine3 = "//*";
 
