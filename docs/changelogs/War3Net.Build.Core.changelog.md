@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-_No unreleased changes._
+### Added
+
+- Added `GameDataVersion.ForsakenKingdom`, a name for the value 2 that `GameDataVersion.Unset` has. `Unset` is still the name that is written to JSON as a string and returned by `ToString`.
 
 ## [v6.1.2] - 2026-10-17
 
