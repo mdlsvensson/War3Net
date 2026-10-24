@@ -8,8 +8,12 @@ Moonwell.War3Net.IO.Slk, Moonwell.War3Net.Build.Core and Moonwell.War3Net.Build.
 The files below were changed by mdlsvensson in 2026. Each change is in the history of the moonwell-package branch.
 
 Directory.Packages.props
+docs/changelogs/War3Net.IO.Slk.changelog.md
 nuget.config
 src/Directory.Build.props
-src/War3Net.IO.Slk/War3Net.IO.Slk.csproj
 src/War3Net.Build.Core/War3Net.Build.Core.csproj
 src/War3Net.Build/War3Net.Build.csproj
+src/War3Net.IO.Slk/SylkParser.cs
+src/War3Net.IO.Slk/War3Net.IO.Slk.csproj
+tests/War3Net.IO.Slk.Tests/GlobalUsings.cs
+tests/War3Net.IO.Slk.Tests/SylkParserTests.cs
