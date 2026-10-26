@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-_No unreleased changes._
+### Changed
+
+- Reading one object data file (`ReadAbilityObjectData`, `ReadUnitObjectData` and the others) reads to the end of the stream, to keep what follows the two tables. Reading a `.w3o` file (`ReadObjectData`) does not.
+
+### Fixed
+
+- An object data file that is read and written back unchanged comes back byte for byte. A string value that is not valid UTF-8 is still read with replacement characters, but its bytes are written back while the value is unchanged. Bytes after the two tables, such as a third, empty table that some tools write, are written back.
+- A trigger strings file (`.wts`) that is read and written back unchanged comes back byte for byte: its byte order mark, its line break (CRLF, LF or CR) and whether its last line ends with one are kept. The lines of a value or comment are written with the file's line break too, where they were always written with CRLF. A new `TriggerStrings` is written with the writer's line break and no byte order mark of its own, as before.
 
 ## [v6.1.2] - 2026-10-17
 

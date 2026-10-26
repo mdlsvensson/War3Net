@@ -1,0 +1,2 @@
+# Round-trip fixtures are compared byte for byte, so git must not change their line endings.
+* -text
