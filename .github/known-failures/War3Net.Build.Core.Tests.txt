@@ -1,7 +1,6 @@
 War3Net.Build.Core.Tests.Info.MapInfoTests.TestBinarySerialization: Jurassic Park Survival EE v6.4.w3x\war3map.w3i
 War3Net.Build.Core.Tests.Info.MapInfoTests.TestJsonSerialization: Jurassic Park Survival EE v6.4.w3x\war3map.w3i
 War3Net.Build.Core.Tests.Info.MapInfoTests.TestJsonSerializationStringEnums: Jurassic Park Survival EE v6.4.w3x\war3map.w3i
-War3Net.Build.Core.Tests.Object.DoodadObjectDataTests.TestBinarySerialization: PKCompressed.w3x\war3map.w3d
 War3Net.Build.Core.Tests.Object.DoodadObjectDataTests.TestJsonSerialization: PKCompressed.w3x\war3map.w3d
 War3Net.Build.Core.Tests.Object.DoodadObjectDataTests.TestJsonSerializationStringEnums: PKCompressed.w3x\war3map.w3d
 War3Net.Build.Core.Tests.Script.MapCustomTextTriggersTests.TestBinarySerialization: Warcraft 3 TFT-TFT multi-TFT 1.31.0.12071 multi-(8)GoldRush.w3x\war3map.wct

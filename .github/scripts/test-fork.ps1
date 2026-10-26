@@ -1,5 +1,5 @@
 # Runs the tests of the three packages the fork publishes (IO.Slk, Build.Core, Build) and fails on a test that is not in
-# .github/known-failures/<project>.txt. War3Net.Build.Core.Tests has 13 cases that fail on Drake53's unchanged master as well
+# .github/known-failures/<project>.txt. War3Net.Build.Core.Tests has 12 cases that fail on Drake53's unchanged master as well
 # (data-driven cases on real map files, most of them marked flaky); the list is what they are, so a new failure still fails the run.
 $ErrorActionPreference = 'Stop'
 

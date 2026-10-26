@@ -18,16 +18,32 @@ docs/changelogs/War3Net.Build.changelog.md
 docs/changelogs/War3Net.IO.Slk.changelog.md
 nuget.config
 src/Directory.Build.props
+src/War3Net.Build.Core/Extensions/BinaryReaderExtensions.cs
 src/War3Net.Build.Core/Info/GameDataVersion.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/AbilityObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/BuffObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/DestructableObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/DoodadObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/ItemObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/ObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/ObjectDataModification.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/UnitObjectData.cs
+src/War3Net.Build.Core/Serialization/Binary/Object/UpgradeObjectData.cs
+src/War3Net.Build.Core/Serialization/Text/Script/TriggerString.cs
+src/War3Net.Build.Core/Serialization/Text/Script/TriggerStrings.cs
 src/War3Net.Build.Core/War3Net.Build.Core.csproj
 src/War3Net.Build/MapScriptBuilder.cs
 src/War3Net.Build/War3Net.Build.csproj
 src/War3Net.IO.Slk/SylkParser.cs
 src/War3Net.IO.Slk/War3Net.IO.Slk.csproj
+tests/War3Net.Build.Core.Tests/GlobalUsings.cs
 tests/War3Net.Build.Core.Tests/Info/GameDataVersionTests.cs
+tests/War3Net.Build.Core.Tests/Object/ObjectDataRoundTripTests.cs
+tests/War3Net.Build.Core.Tests/Script/TriggerStringsRoundTripTests.cs
 tests/War3Net.Build.Tests/MapScriptBuilderMissingFileTests.cs
 tests/War3Net.IO.Slk.Tests/GlobalUsings.cs
 tests/War3Net.IO.Slk.Tests/SylkParserTests.cs
+tests/War3Net.TestTools.UnitTesting/TestData/RoundTrip/ (every file in it)
 
 The fork also removes War3Net's own workflows .github/workflows/pack-nuget.yml and .github/workflows/publish-nuget.yml, which
 pack and publish War3Net's packages under War3Net's ids.
