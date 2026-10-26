@@ -149,5 +149,15 @@ namespace War3Net.Build.Extensions
         public static RandomUnitCustomTable ReadRandomUnitCustomTable(this BinaryReader reader, MapWidgetsFormatVersion formatVersion, MapWidgetsSubVersion subVersion, bool useNewFormat) => new RandomUnitCustomTable(reader, formatVersion, subVersion, useNewFormat);
 
         public static RandomUnitTableUnit ReadRandomUnitTableUnit(this BinaryReader reader, MapWidgetsFormatVersion formatVersion, MapWidgetsSubVersion subVersion, bool useNewFormat) => new RandomUnitTableUnit(reader, formatVersion, subVersion, useNewFormat);
+
+        /// <summary>
+        /// Reads every byte that is left in the stream.
+        /// </summary>
+        internal static byte[] ReadRemainingBytes(this BinaryReader reader)
+        {
+            using var bytes = new MemoryStream();
+            reader.BaseStream.CopyTo(bytes);
+            return bytes.ToArray();
+        }
     }
 }

@@ -2,12 +2,12 @@
 {
     public sealed partial class TriggerString
     {
-        internal TriggerString(StreamReader reader)
+        internal TriggerString(TextReader reader)
         {
             ReadFrom(reader);
         }
 
-        internal void ReadFrom(StreamReader reader)
+        internal void ReadFrom(TextReader reader)
         {
             while (true)
             {
@@ -85,7 +85,7 @@
             }
         }
 
-        internal void WriteTo(StreamWriter writer)
+        internal void WriteTo(TextWriter writer)
         {
             for (nuint i = 0; i < EmptyLineCount; i++)
             {
@@ -97,11 +97,12 @@
                 writer.WriteLine($"STRING {Key.ToString($"D{KeyPrecision}")}");
                 if (Comment is not null)
                 {
-                    writer.WriteLine($"//{Comment}");
+                    writer.WriteLine($"//{Comment.Replace("\r\n", writer.NewLine, StringComparison.Ordinal)}");
                 }
 
+                // The reader joins the lines of a comment or a value with \r\n; they are written with the writer's line break.
                 writer.WriteLine("{");
-                writer.WriteLine(Value);
+                writer.WriteLine(Value.Replace("\r\n", writer.NewLine, StringComparison.Ordinal));
                 writer.WriteLine("}");
             }
         }
